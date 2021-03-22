@@ -1,23 +1,26 @@
-const http = require('http');
-const fs = require('fs')
+const path = require('path')
+const express = require('express')
 
-const aboutPage = fs.readFileSync('about.html')
-const contactPage = fs.readFileSync('contact.html')
-const homePage = fs.readFileSync('home.html')
+const app = express()
 
+app.use(express.static('public'))
 
-const server = http.createServer((req, res) => {
-
-    if(req.url === '/about') {
-        return res.end(aboutPage)
-    } else if (req.url === '/contact') {
-        return res.end(contactPage)
-    } else if (req.url === '/') {
-        return res.end(homePage)
-    } else {
-        res.writeHead(404)
-        return res.end('The PAGE was not found')
-    }
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/index.html'))
 })
 
-server.listen(3000)
+app.get('/about', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/about.html'))
+})
+
+app.get('/post', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/post.html'))
+})
+
+app.get('/contact', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
+})
+
+app.listen(3000, () => {
+    console.log('App listening on port 3000');
+})
