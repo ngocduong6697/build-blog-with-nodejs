@@ -21,8 +21,6 @@ app.set('views', `${__dirname}/views`)
 
 app.get('/', async (req, res) => {
     const posts = await Post.find({})
-
-    console.log(posts);
     res.render('index', {
         posts
     })
@@ -37,7 +35,6 @@ app.post('/posts/store', (req,res) => {
     console.log(req.body);
 
     Post.create(req.body, (error, post) => {
-        
         res.redirect('/')
     })
 
@@ -47,8 +44,11 @@ app.get('/about', (req, res) => {
     res.render('about')
 })
 
-app.get('/post', (req, res) => {
-    res.render('post')
+app.get('/post/:id', async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    res.render('post', {
+        post
+    })
 })
 
 app.get('/contact', (req, res) => {
