@@ -4,10 +4,13 @@ const { engine } = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Post = require('./database/models/Post')
+const fileUpload = require('express-fileupload')
 
 const app = new express()
 
 mongoose.connect('mongodb://localhost/build-blog-with-nodejs', {useNewUrlParser: true, useUnifiedTopology: true})
+
+app.use(fileUpload())
 
 app.use(express.static('public'))
 
@@ -32,12 +35,13 @@ app.get('/posts/new', (req, res) => {
 
 app.post('/posts/store', (req,res) => {
 
-    console.log(req.body);
+    const { image } = req.files
 
-    Post.create(req.body, (error, post) => {
-        res.redirect('/')
+    image.mv(path.resolve(__dirname, 'public/posts', image.name), (error) => {
+        Post.create(req.body, (error, post) => {
+            res.redirect('/')
+        })
     })
-
 })
 
 app.get('/about', (req, res) => {
