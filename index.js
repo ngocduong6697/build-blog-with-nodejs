@@ -3,12 +3,17 @@ const { engine } = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
+
+// controller
 const createPostController = require('./controllers/createPost')
 const homePageController = require('./controllers/homePage')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
 const aboutController = require('./controllers/about')
 const contactController = require('./controllers/contact')
+
+// middleware
+const storePostMiddleware = require('./middleware/storePost')
 
 const app = new express()
 
@@ -24,16 +29,9 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended: true}))
 
-const validateCreatePostMiddleware = (req, res, next) => {
-    if(!req.files.image || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
-        return res.redirect('posts/new')
-    }
-    next()
-}
-
 app.set('views', `${__dirname}/views`)
 
-app.use('/posts/store', validateCreatePostMiddleware)
+app.use('/posts/store', storePostMiddleware)
 
 app.get('/', homePageController)
 
