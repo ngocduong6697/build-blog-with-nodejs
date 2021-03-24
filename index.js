@@ -22,6 +22,7 @@ const loginUserController = require('./controllers/loginUser')
 // middleware
 const storePost = require('./middleware/storePost')
 const auth = require('./middleware/auth')
+const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 
 const app = new express()
 
@@ -58,13 +59,13 @@ app.get('/posts/new', auth, createPostController)
 
 app.post('/posts/store', auth, storePost, storePostController)
 
-app.post('/users/register', storeUserController)
+app.post('/users/register', redirectIfAuthenticated, storeUserController)
 
-app.get('/auth/register', createUserController)
+app.get('/auth/register', redirectIfAuthenticated, createUserController)
 
-app.get('/auth/login', loginController)
+app.get('/auth/login', redirectIfAuthenticated, loginController)
 
-app.post('/users/login', loginUserController)
+app.post('/users/login', redirectIfAuthenticated, loginUserController)
 
 app.get('/about', aboutController)
 
