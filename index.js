@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
+const connectFlash = require('connect-flash')
 
 // controller
 const createPostController = require('./controllers/createPost')
@@ -25,6 +26,8 @@ const auth = require('./middleware/auth')
 const app = new express()
 
 mongoose.connect('mongodb://localhost/build-blog-with-nodejs', {useNewUrlParser: true, useUnifiedTopology: true})
+
+app.use(connectFlash())
 
 const mongoStore = connectMongo(expressSession)
 
