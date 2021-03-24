@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express')
+const edge = require('edge.js')
 const { engine } = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -50,6 +52,11 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.set('views', `${__dirname}/views`)
+
+app.use("*", (req, res, next) => {
+    edge.global('auth', req.session.userId)
+    next()
+})
 
 app.get('/', homePageController)
 
