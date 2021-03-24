@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const expressSession = require('express-session')
+const connectMongo = require('connect-mongo')
 
 // controller
 const createPostController = require('./controllers/createPost')
@@ -22,11 +23,16 @@ const storePostMiddleware = require('./middleware/storePost')
 
 const app = new express()
 
-app.use(expressSession({
-    secret: 'secret'
-}))
-
 mongoose.connect('mongodb://localhost/build-blog-with-nodejs', {useNewUrlParser: true, useUnifiedTopology: true})
+
+const mongoStore = connectMongo(expressSession)
+
+app.use(expressSession({
+    secret: 'secret',
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}))
 
 app.use(fileUpload())
 
