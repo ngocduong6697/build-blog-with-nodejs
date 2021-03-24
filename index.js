@@ -19,7 +19,8 @@ const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
 
 // middleware
-const storePostMiddleware = require('./middleware/storePost')
+const storePost = require('./middleware/storePost')
+const auth = require('./middleware/auth')
 
 const app = new express()
 
@@ -46,15 +47,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.set('views', `${__dirname}/views`)
 
-app.use('/posts/store', storePostMiddleware)
-
 app.get('/', homePageController)
 
 app.get('/post/:id', getPostController)
 
-app.get('/posts/new', createPostController)
+app.get('/posts/new', auth, createPostController)
 
-app.post('/posts/store', storePostController)
+app.post('/posts/store', auth, storePost, storePostController)
 
 app.post('/users/register', storeUserController)
 
