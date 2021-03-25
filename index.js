@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express')
 const edge = require('edge.js')
+const cloudinary = require('cloudinary')
 const { engine } = require('express-edge')
 const mongoose = require('mongoose')
 mongoose.set('useCreateIndex', true);
@@ -33,6 +34,12 @@ const app = new express()
 mongoose.connect('mongodb://localhost/build-blog-with-nodejs', {useNewUrlParser: true, useUnifiedTopology: true})
 
 app.use(connectFlash())
+
+cloudinary.config({
+    api_key: '716612854949217',
+    api_secret: 'nX_cnAnzlhrJPZ22WMSJQvyXpOc',
+    cloud_name: 'dphyaljwr'
+})
 
 const mongoStore = connectMongo(expressSession)
 
