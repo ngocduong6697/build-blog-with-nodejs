@@ -3,6 +3,7 @@ const express = require('express')
 const edge = require('edge.js')
 const { engine } = require('express-edge')
 const mongoose = require('mongoose')
+mongoose.set('useCreateIndex', true);
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const expressSession = require('express-session')
@@ -20,6 +21,7 @@ const createUserController = require('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
+const logoutUserController = require('./controllers/logout')
 
 // middleware
 const storePost = require('./middleware/storePost')
@@ -63,6 +65,8 @@ app.get('/', homePageController)
 app.get('/post/:id', getPostController)
 
 app.get('/posts/new', auth, createPostController)
+
+app.get('/auth/logout', auth, logoutUserController)
 
 app.post('/posts/store', auth, storePost, storePostController)
 
