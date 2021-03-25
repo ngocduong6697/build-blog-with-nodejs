@@ -31,23 +31,25 @@ const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 
 const app = new express()
 
-mongoose.connect('mongodb://localhost/build-blog-with-nodejs', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 app.use(connectFlash())
 
 cloudinary.config({
-    api_key: '716612854949217',
-    api_secret: 'nX_cnAnzlhrJPZ22WMSJQvyXpOc',
-    cloud_name: 'dphyaljwr'
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: process.env.CLOUDINARY_NAME
 })
 
 const mongoStore = connectMongo(expressSession)
 
 app.use(expressSession({
-    secret: 'secret',
+    secret: process.env.EXPRESS_SESSION_KEY,
     store: new mongoStore({
         mongooseConnection: mongoose.connection
-    })
+    }),
+    resave: true,
+    saveUninitialized: true
 }))
 
 app.use(fileUpload())
@@ -92,6 +94,6 @@ app.get('/contact', contactController)
 
 app.use((req, res) => res.render('not-found'))
 
-app.listen(3000, () => {
-    console.log('App listening on port 3000');
+app.listen(process.env.PORT, () => {
+    console.log(`App listening on port ${process.env.PORT}`);
 })
