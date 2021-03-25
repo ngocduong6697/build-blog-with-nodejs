@@ -78,9 +78,12 @@ app.get('/auth/login', redirectIfAuthenticated, loginController)
 
 app.post('/users/login', redirectIfAuthenticated, loginUserController)
 
+
 app.get('/about', aboutController)
 
 app.get('/contact', contactController)
+
+app.use((req, res) => res.render('not-found'))
 
 app.listen(3000, () => {
     console.log('App listening on port 3000');
