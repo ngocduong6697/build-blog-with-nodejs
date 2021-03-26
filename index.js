@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('./database/models/connectDatabase')
 const express = require('express')
 const edge = require('edge.js')
 const cloudinary = require('cloudinary')
@@ -30,8 +31,6 @@ const auth = require('./middleware/auth')
 const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 
 const app = new express()
-
-// mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 app.use(connectFlash())
 
