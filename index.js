@@ -31,7 +31,7 @@ const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 
 const app = new express()
 
-mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+// mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 app.use(connectFlash())
 
