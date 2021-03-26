@@ -93,6 +93,6 @@ app.get('/contact', contactController)
 
 app.use((req, res) => res.render('not-found'))
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log(`App listening on port ${process.env.PORT}`);
 })
