@@ -2,7 +2,7 @@ require('dotenv-extended').load()
 require('./database/models/connectDatabase')
 const express = require('express')
 const edge = require('edge.js')
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
 const { engine } = require('express-edge')
 const mongoose = require('mongoose')
 mongoose.set('useCreateIndex', true);
