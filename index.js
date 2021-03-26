@@ -1,4 +1,4 @@
-require('dotenv-extended').load()
+require('dotenv').config()
 require('./database/models/connectDatabase')
 const express = require('express')
 const edge = require('edge.js')
